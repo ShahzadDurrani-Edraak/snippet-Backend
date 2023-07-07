@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 //app.use(cors());
 app.use(
   cors({
-    origin: ["localhost/3000"],
+    origin: ["https://snip-ad.netlify.app"],
     methods: ["GET", "POST"],
     credentials: false,
     origin: true,
