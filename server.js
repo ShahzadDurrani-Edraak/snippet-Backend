@@ -19,7 +19,7 @@ app.use(
   cors({
     origin: ["https://snippet-backend.netlify.app"],
     methods: ["GET", "POST"],
-    credentials: true,
+    credentials: false,
     origin: true,
   })
 );
