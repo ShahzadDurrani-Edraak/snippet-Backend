@@ -14,16 +14,7 @@ const app = express();
 app.use("/images", express.static("images"));
 
 app.use(bodyParser.json());
-//app.use(cors());
-app.use(
-  cors({
-    origin: "*",
-    reffer_policy: "access-control-allow-origin",
-    methods: ["GET", "POST"],
-    credentials: false,
-    origin: true,
-  })
-);
+app.use(cors());
 const upload = multer({ dest: path.join(__dirname, "/images") });
 
 const dataFile = "data.json";
