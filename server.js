@@ -14,7 +14,15 @@ const app = express();
 app.use("/images", express.static("images"));
 
 app.use(bodyParser.json());
-app.use(cors());
+//app.use(cors());
+app.use(
+  cors({
+    origin: ["https://snippet-backend.netlify.app"],
+    methods: ["GET", "POST"],
+    credentials: true,
+    origin: true,
+  })
+);
 const upload = multer({ dest: path.join(__dirname, "/images") });
 
 const dataFile = "data.json";
