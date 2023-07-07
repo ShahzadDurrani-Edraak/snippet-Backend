@@ -10,17 +10,21 @@ const DB = process.env.DATABASE;
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-
+app.use(cors());
 app.use("/images", express.static("images"));
 
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "https://snip-ad.netlify.app");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 app.use(bodyParser.json());
-app.use(cors());
 const upload = multer({ dest: path.join(__dirname, "/images") });
 
 const dataFile = "data.json";
 
-const db =
-  "mongodb+srv://snippet:JGux6VW9V4vVXlv8@cluster0.9apof77.mongodb.net/?retryWrites=true&w=majority";
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
