@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 //app.use(cors());
 app.use(
   cors({
-    origin: ["https://snippet-backend.netlify.app"],
+    origin: ["localhost/3000"],
     methods: ["GET", "POST"],
     credentials: false,
     origin: true,
