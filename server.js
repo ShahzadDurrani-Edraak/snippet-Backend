@@ -93,7 +93,6 @@ app.post("/api/data", (req, res) => {
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
   })
   .then(() => {
     console.log("Connection to MongoDB established");
