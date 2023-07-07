@@ -7,34 +7,20 @@ const multer = require("multer");
 const path = require("path");
 const mongoose = require("mongoose");
 const DB = process.env.DATABASE;
-const PORT = process.env.PORT || 3001;
 
 const app = express();
 app.use(cors());
 app.use("/images", express.static("images"));
 
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "https://snip-ad.netlify.app");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.setHeader("Access-Control-Allow-Origin", "https://snip-ad.netlify.app");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+//   next();
+// });
 
 app.use(bodyParser.json());
 const upload = multer({ dest: path.join(__dirname, "/images") });
-
-const dataFile = "data.json";
-
-mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-  })
-  .then(() => {
-    console.log("connection Succesfull");
-  })
-  .catch((err) => {
-    console.log("no connection", err);
-  });
 
 // Assuming you have defined a schema for your data
 const jsonDataSchema = new mongoose.Schema({
@@ -103,7 +89,22 @@ app.post("/api/data", (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 });
+
+mongoose
+  .connect(DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log("Connection to MongoDB established");
+    app.listen(process.env.PORT || 3001, () => {
+      console.log(`Server running on port ${process.env.PORT || 3001}`);
+    });
+  })
+  .catch((err) => {
+    console.log("Failed to connect to MongoDB", err);
+  });
 // Change it to the desired port number
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server running on port ${PORT}`);
+// });
