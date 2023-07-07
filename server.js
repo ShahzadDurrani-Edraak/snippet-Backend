@@ -7,6 +7,7 @@ const multer = require("multer");
 const path = require("path");
 const mongoose = require("mongoose");
 const DB = process.env.DATABASE;
+const PORT = process.env.PORT || 3001;
 
 const app = express();
 
@@ -98,8 +99,7 @@ app.post("/api/data", (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 });
-
-const port = 3001; // Change it to the desired port number
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+// Change it to the desired port number
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

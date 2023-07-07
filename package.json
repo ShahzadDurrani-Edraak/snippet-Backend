@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "cd snippet-library && npm start"
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
