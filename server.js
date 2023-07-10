@@ -97,7 +97,7 @@ mongoose
   })
   .then(() => {
     console.log("Connection to MongoDB established");
-    app.listen(PORT || 3001, () => {
+    app.listen(PORT || 9001, () => {
       console.log(`Server running on port ${PORT || 3001}`);
     });
   })
