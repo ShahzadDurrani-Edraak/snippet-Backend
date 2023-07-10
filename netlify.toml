@@ -1,4 +1,6 @@
 [build]
 functions = "functions"
 command = "node server.js"
-publish = "images"
+
+[dev]
+publish = "dist"

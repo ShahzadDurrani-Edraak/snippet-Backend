@@ -91,11 +91,11 @@ app.post("/data", (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 });
-app.listen(process.env.PORT || 3001, () => {
-  console.log(`Server running on port ${process.env.PORT || 3001}`);
-});
-// app.use("/api", router);
-// module.exports.handler = serverless(app);
+// app.listen(process.env.PORT || 3001, () => {
+//   console.log(`Server running on port ${process.env.PORT || 3001}`);
+// });
+app.use("/netlify/functions/server", router);
+module.exports.handler = serverless(app);
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
