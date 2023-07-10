@@ -44,6 +44,20 @@ const jsonDataSchema = new mongoose.Schema({
 // Assuming you have created a model based on the schema
 const JsonData = mongoose.model("JsonData", jsonDataSchema);
 
+mongoose
+  .connect(db, {
+    useNewUrlParser: true,
+  })
+  .then(() => {
+    console.log("Connection to MongoDB established");
+    app.listen(PORT || 9001, () => {
+      console.log(`Server running on port ${PORT || 3000}`);
+    });
+  })
+  .catch((err) => {
+    console.log("Failed to connect to MongoDB", err);
+  });
+
 app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
@@ -93,19 +107,6 @@ app.post("/api/data", (req, res) => {
     });
 });
 
-mongoose
-  .connect(db, {
-    useNewUrlParser: true,
-  })
-  .then(() => {
-    console.log("Connection to MongoDB established");
-    app.listen(PORT || 9001, () => {
-      console.log(`Server running on port ${PORT || 3000}`);
-    });
-  })
-  .catch((err) => {
-    console.log("Failed to connect to MongoDB", err);
-  });
 // Change it to the desired port number
 // app.listen(PORT, () => {
 //   console.log(`Server running on port ${PORT}`);
