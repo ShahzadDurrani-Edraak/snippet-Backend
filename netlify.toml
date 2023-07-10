@@ -1,6 +1,5 @@
 [build]
-functions = "functions"
-command = "npm run start"
+command = "node server.js"
 
 [dev]
 publish = "dist"
