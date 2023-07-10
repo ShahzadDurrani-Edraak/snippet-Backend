@@ -8,6 +8,8 @@ const path = require("path");
 const mongoose = require("mongoose");
 const DB = process.env.DATABASE;
 const PORT = process.env.PORT || 9000;
+const db =
+  "mongodb+srv://snippet:JGux6VW9V4vVXlv8@cluster0.9apof77.mongodb.net/?retryWrites=true&w=majority";
 
 const app = express();
 app.use(cors());
@@ -92,7 +94,7 @@ app.post("/api/data", (req, res) => {
 });
 
 mongoose
-  .connect(DB, {
+  .connect(db, {
     useNewUrlParser: true,
   })
   .then(() => {
