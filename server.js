@@ -7,6 +7,7 @@ const multer = require("multer");
 const path = require("path");
 const mongoose = require("mongoose");
 const DB = process.env.DATABASE;
+const PORT = procee.env.PORT;
 
 const app = express();
 app.use(cors());
@@ -96,8 +97,8 @@ mongoose
   })
   .then(() => {
     console.log("Connection to MongoDB established");
-    app.listen(process.env.PORT || 3001, () => {
-      console.log(`Server running on port ${process.env.PORT || 3001}`);
+    app.listen(PORT || 3001, () => {
+      console.log(`Server running on port ${PORT || 3001}`);
     });
   })
   .catch((err) => {
