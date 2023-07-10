@@ -7,7 +7,7 @@ const multer = require("multer");
 const path = require("path");
 const mongoose = require("mongoose");
 const DB = process.env.DATABASE;
-const PORT = procee.env.PORT;
+const PORT = process.env.PORT;
 
 const app = express();
 app.use(cors());
