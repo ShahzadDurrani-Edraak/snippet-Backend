@@ -89,16 +89,15 @@ app.post("/api/data", (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 });
-
+app.listen(process.env.PORT || 3001, () => {
+  console.log(`Server running on port ${process.env.PORT || 3001}`);
+});
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
   })
   .then(() => {
     console.log("Connection to MongoDB established");
-    app.listen(process.env.PORT || 3001, () => {
-      console.log(`Server running on port ${process.env.PORT || 3001}`);
-    });
   })
   .catch((err) => {
     console.log("Failed to connect to MongoDB", err);
