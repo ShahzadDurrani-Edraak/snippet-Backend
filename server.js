@@ -58,26 +58,26 @@ mongoose
     console.log("Failed to connect to MongoDB", err);
   });
 
-app.post("/api/upload", upload.single("image"), (req, res) => {
-  if (!req.file) {
-    return res.status(400).json({ error: "No file uploaded" });
-  }
-
-  // Extract the file extension from the original file name
-  const fileExtension = path.extname(req.file.originalname);
-
-  // Generate a new file name with the added extension
-  const newFileName = `${req.file.filename}${fileExtension}`;
-
-  // Rename the uploaded file to include the extension
-  const newFilePath = path.join(__dirname, "/images", newFileName);
-  fs.renameSync(req.file.path, newFilePath);
-  // Here, you can process the uploaded file as needed (e.g., save it to a database, resize it, etc.)
-
-  // Assuming you want to send back the uploaded image filename
-  const uploadedImage = req.file.filename;
-  res.json({ image: uploadedImage });
-});
+// app.post("/api/upload", upload.single("image"), (req, res) => {
+//   if (!req.file) {
+//     return res.status(400).json({ error: "No file uploaded" });
+//   }
+//
+//   // Extract the file extension from the original file name
+//   const fileExtension = path.extname(req.file.originalname);
+//
+//   // Generate a new file name with the added extension
+//   const newFileName = `${req.file.filename}${fileExtension}`;
+//
+//   // Rename the uploaded file to include the extension
+//   const newFilePath = path.join(__dirname, "/images", newFileName);
+//   fs.renameSync(req.file.path, newFilePath);
+//   // Here, you can process the uploaded file as needed (e.g., save it to a database, resize it, etc.)
+//
+//   // Assuming you want to send back the uploaded image filename
+//   const uploadedImage = req.file.filename;
+//   res.json({ image: uploadedImage });
+// });
 
 app.get("/api/data", (req, res) => {
   JsonData.find()
