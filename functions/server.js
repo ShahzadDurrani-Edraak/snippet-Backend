@@ -7,8 +7,6 @@ const multer = require("multer");
 const path = require("path");
 const mongoose = require("mongoose");
 const DB = process.env.DATABASE;
-const serverless = require("serverless-http");
-const router = express.Router();
 
 const app = express();
 app.use(cors());
@@ -43,7 +41,7 @@ const jsonDataSchema = new mongoose.Schema({
 // Assuming you have created a model based on the schema
 const JsonData = mongoose.model("JsonData", jsonDataSchema);
 
-app.post("/upload", upload.single("image"), (req, res) => {
+app.post("/api/upload", upload.single("image"), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ error: "No file uploaded" });
   }
@@ -64,7 +62,7 @@ app.post("/upload", upload.single("image"), (req, res) => {
   res.json({ image: uploadedImage });
 });
 
-app.get("/data", (req, res) => {
+app.get("/api/data", (req, res) => {
   JsonData.find()
     .then((data) => {
       res.status(200).json(data);
@@ -75,7 +73,7 @@ app.get("/data", (req, res) => {
     });
 });
 
-app.post("/data", (req, res) => {
+app.post("/api/data", (req, res) => {
   const newData = new JsonData(req.body);
 
   newData
@@ -91,11 +89,9 @@ app.post("/data", (req, res) => {
       res.status(500).json({ error: "Internal Server Error" });
     });
 });
-// app.listen(process.env.PORT || 3001, () => {
-//   console.log(`Server running on port ${process.env.PORT || 3001}`);
-// });
-app.use("/netlify/functions/server", router);
-module.exports.handler = serverless(app);
+app.listen(process.env.PORT || 3001, () => {
+  console.log(`Server running on port ${process.env.PORT || 3001}`);
+});
 mongoose
   .connect(DB, {
     useNewUrlParser: true,
