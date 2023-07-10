@@ -13,7 +13,7 @@ const db =
 
 const app = express();
 app.use(cors());
-app.use("/images", express.static("images"));
+//app.use("/images", express.static("images"));
 
 // app.use((req, res, next) => {
 //   res.setHeader("Access-Control-Allow-Origin", "https://snip-ad.netlify.app");
@@ -23,7 +23,7 @@ app.use("/images", express.static("images"));
 // });
 
 app.use(bodyParser.json());
-const upload = multer({ dest: path.join(__dirname, "/images") });
+//const upload = multer({ dest: path.join(__dirname, "/images") });
 
 // Assuming you have defined a schema for your data
 const jsonDataSchema = new mongoose.Schema({
