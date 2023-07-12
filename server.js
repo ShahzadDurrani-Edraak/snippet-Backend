@@ -12,6 +12,7 @@ const db =
   "mongodb+srv://snippet:JGux6VW9V4vVXlv8@cluster0.9apof77.mongodb.net/?retryWrites=true&w=majority";
 const app = express();
 const AWS = require("aws-sdk");
+require("aws-sdk/lib/maintenance_mode_message").suppress = true;
 const s3 = new AWS.S3();
 
 app.use(cors());
