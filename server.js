@@ -56,7 +56,7 @@ mongoose
   });
 
 var upload = multer({
-  limits: { fileSize: 10 * 1000 * 1000 }, // now allowing user uploads up to 10MB
+  limits: { fileSize: 5 * 1000 * 1000 }, // now allowing user uploads up to 10MB
   fileFilter: function (req, file, callback) {
     let fileExtension = file.originalname
       .split(".")
@@ -69,13 +69,13 @@ var upload = multer({
   },
 });
 
-app.post("/api/upload", upload.single("file"), function (req, res, next) {
+app.post("/api/upload", function (req, res, next) {
   const image = sharp(req.file.path); // path to the stored image
   image
     .metadata() // get image metadata for size
     .then(function (metadata) {
-      if (metadata.width > 1800) {
-        return image.resize({ width: 100, height: 100 }).toBuffer(); // resize if too big
+      if (metadata.width > 500) {
+        return image.resize({ width: 200 }).toBuffer(); // resize if too big
       } else {
         return image.toBuffer();
       }
@@ -110,16 +110,18 @@ app.post("/api/upload", upload.single("file"), function (req, res, next) {
         .send("There was an error processing an image: " + err.message);
     });
 });
+
+/////////////////////////////////////////////////
 // app.post("/api/upload", upload.single("image"), (req, res) => {
-// if (!req.file) {
-//   return res.status(400).json({ error: "No file uploaded" });
-// }
+//   if (!req.file) {
+//     return res.status(400).json({ error: "No file uploaded" });
+//   }
 
-// // Extract the file extension from the original file name
-// const fileExtension = path.extname(req.file.originalname);
+//   // Extract the file extension from the original file name
+//   const fileExtension = path.extname(req.file.originalname);
 
-// // Generate a new file name with the added extension
-// const newFileName = `${req.file.filename}${fileExtension}`;
+//   // Generate a new file name with the added extension
+//   const newFileName = `${req.file.filename}${fileExtension}`;
 
 //   // Rename the uploaded file to include the extension
 //   const newFilePath = path.join(__dirname, "/images", newFileName);
@@ -130,8 +132,8 @@ app.post("/api/upload", upload.single("file"), function (req, res, next) {
 //   const uploadedImage = req.file.filename;
 //   res.json({ image: uploadedImage });
 // });
-
-// app.put("/api/upload", async (req, res) => {
+///////////////////////////////////////////////////
+// app.post("/api/upload", async (req, res) => {
 //   //let filename = req.path.slice(1);
 //   if (!req.file) {
 //     return res.status(400).json({ error: "No file uploaded" });
