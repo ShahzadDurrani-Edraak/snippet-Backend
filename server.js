@@ -68,7 +68,7 @@ var upload = multer({
     callback(null, true);
   },
   storage: multer.diskStorage({
-    destination: "/images", // store in local filesystem
+    destination: "/", // store in local filesystem
     filename: function (req, file, cb) {
       cb(
         null,
@@ -95,11 +95,11 @@ app.post("/api/upload", upload.single("file"), function (req, res, next) {
       // upload to s3 storage
       fs.rmSync(req.file.path, { force: true }); // delete the tmp file as now have buffer
       let upload = {
-        Key: `uploads/${
-          (req.file.originalname.replace(/\W|jpeg|jpg|png/g, ""), "")
-        }.${file.extension}`, // removes non-word characters from filename
+        Key: `${(req.file.originalname.replace(/\W|jpeg|jpg|png/g, ""), "")}.${
+          file.extension
+        }`, // removes non-word characters from filename
         Body: data,
-        Bucket: "some-bucket",
+        Bucket: process.env.BUCKET,
         ACL: "public-read",
         ContentType: req.file.mimetype, // the image type
       };
