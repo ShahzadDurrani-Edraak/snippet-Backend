@@ -133,31 +133,6 @@ app.post("/api/upload", function (req, res, next) {
 //   res.json({ image: uploadedImage });
 // });
 ///////////////////////////////////////////////////
-// app.post("/api/upload", async (req, res) => {
-//   //let filename = req.path.slice(1);
-//   if (!req.file) {
-//     return res.status(400).json({ error: "No file uploaded" });
-//   }
-
-//   // Extract the file extension from the original file name
-//   const fileExtension = path.extname(req.file.originalname);
-
-//   // Generate a new file name with the added extension
-//   const newFileName = `${req.file.filename}${fileExtension}`;
-
-//   console.log(typeof req.body);
-
-//   await s3
-//     .putObject({
-//       Body: JSON.stringify(req.body),
-//       Bucket: process.env.BUCKET,
-//       Key: newFileName,
-//     })
-//     .promise();
-
-//   res.set("Content-type", "text/plain");
-//   res.send("ok").end();
-// });
 
 app.get("/api/data", (req, res) => {
   JsonData.find()
