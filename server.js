@@ -10,8 +10,13 @@ const DB = process.env.DATABASE;
 const PORT = process.env.PORT || 9000;
 const db =
   "mongodb+srv://snippet:JGux6VW9V4vVXlv8@cluster0.9apof77.mongodb.net/?retryWrites=true&w=majority";
-
 const app = express();
+const AWS = require("aws-sdk");
+const s3 = new AWS.S3();
+const bodyParser = require("body-parser");
+
+app.use(bodyParser.json());
+
 app.use(cors());
 //app.use("/images", express.static("images"));
 
@@ -59,15 +64,15 @@ mongoose
   });
 
 // app.post("/api/upload", upload.single("image"), (req, res) => {
-//   if (!req.file) {
-//     return res.status(400).json({ error: "No file uploaded" });
-//   }
+// if (!req.file) {
+//   return res.status(400).json({ error: "No file uploaded" });
+// }
 
-//   // Extract the file extension from the original file name
-//   const fileExtension = path.extname(req.file.originalname);
+// // Extract the file extension from the original file name
+// const fileExtension = path.extname(req.file.originalname);
 
-//   // Generate a new file name with the added extension
-//   const newFileName = `${req.file.filename}${fileExtension}`;
+// // Generate a new file name with the added extension
+// const newFileName = `${req.file.filename}${fileExtension}`;
 
 //   // Rename the uploaded file to include the extension
 //   const newFilePath = path.join(__dirname, "/images", newFileName);
@@ -78,6 +83,32 @@ mongoose
 //   const uploadedImage = req.file.filename;
 //   res.json({ image: uploadedImage });
 // });
+
+app.put("/api/upload", async (req, res) => {
+  //let filename = req.path.slice(1);
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+
+  // Extract the file extension from the original file name
+  const fileExtension = path.extname(req.file.originalname);
+
+  // Generate a new file name with the added extension
+  const newFileName = `${req.file.filename}${fileExtension}`;
+
+  console.log(typeof req.body);
+
+  await s3
+    .putObject({
+      Body: JSON.stringify(req.body),
+      Bucket: process.env.BUCKET,
+      Key: newFileName,
+    })
+    .promise();
+
+  res.set("Content-type", "text/plain");
+  res.send("ok").end();
+});
 
 app.get("/api/data", (req, res) => {
   JsonData.find()
