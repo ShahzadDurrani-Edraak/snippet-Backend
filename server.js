@@ -67,17 +67,6 @@ var upload = multer({
     file.extension = fileExtension.replace(/jpeg/i, "jpg"); // all jpeg images to end .jpg
     callback(null, true);
   },
-  storage: multer.diskStorage({
-    destination: "/", // store in local filesystem
-    filename: function (req, file, cb) {
-      cb(
-        null,
-        `${req.user._id.toHexString()}-${Date.now().toString()}.${
-          file.extension
-        }`
-      ); // user id + date
-    },
-  }),
 });
 
 app.post("/api/upload", upload.single("file"), function (req, res, next) {
@@ -86,7 +75,7 @@ app.post("/api/upload", upload.single("file"), function (req, res, next) {
     .metadata() // get image metadata for size
     .then(function (metadata) {
       if (metadata.width > 1800) {
-        return image.resize({ width: 1800 }).toBuffer(); // resize if too big
+        return image.resize({ width: 100, height: 100 }).toBuffer(); // resize if too big
       } else {
         return image.toBuffer();
       }
